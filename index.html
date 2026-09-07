@@ -65,7 +65,7 @@
   }
 
   .skyline{position:absolute;left:0;right:0;bottom:0;height:16%;pointer-events:none;opacity:.92;}
-  .branch{position:absolute;top:-3%;left:-5%;width:38%;height:34%;transform-origin:10% 4%;pointer-events:none;opacity:.95;}
+  .branch{position:absolute;bottom:40%;left:-4%;width:33%;height:28%;transform-origin:2% 50%;pointer-events:none;opacity:.97;}
 
   .glass-sheen{
     position:absolute;inset:0;pointer-events:none;
@@ -176,7 +176,7 @@
     <div class="fog-layer" id="fogLayer"></div>
     <div class="lightning" id="lightning"></div>
     <svg class="skyline" id="skyline" viewBox="0 0 400 60" preserveAspectRatio="none"></svg>
-    <svg class="branch" id="branch" viewBox="0 0 200 180"></svg>
+    <svg class="branch" id="branch" viewBox="-15 -85 495 470" preserveAspectRatio="none"></svg>
     <div class="glass-sheen"></div>
   </div>
   <div class="muntin-v left"></div>
@@ -701,16 +701,32 @@
     skyline.innerHTML =
       '<path d="M0,60 L0,40 L18,40 L18,28 L34,28 L34,38 L52,38 L52,20 L60,20 L60,38 L80,38 L80,44 L100,44 L100,30 L112,30 L112,44 L140,44 L140,24 L150,24 L150,44 L175,44 L175,36 L195,36 L195,44 L220,44 L220,26 L232,26 L232,44 L258,44 L258,38 L280,38 L280,22 L292,22 L292,38 L320,38 L320,44 L345,44 L345,30 L358,30 L358,44 L400,44 L400,60 Z" fill="#0a0704" opacity="0.9"/>';
     var branch = document.getElementById("branch");
+
+    /* main trunk: enters at the left edge, runs the full length of the
+       pane and past the muntin -- longer than the upper twig right above
+       it. Thickness is stepped: +30% at the window's start, tapering 20%
+       by the second upper twig, another 10% by the second lower twig,
+       then a natural taper to a thin tip. Three long twigs above at
+       40 deg, getting shorter toward the tip; two twigs below at 50 deg.
+       Widths are big in viewBox units because the branch's on-screen box
+       is tiny. */
     branch.innerHTML =
-      '<path d="M10,4 C50,20 80,40 105,72 C125,98 140,120 160,150" stroke="#0a0704" stroke-width="5" fill="none" stroke-linecap="round"/>' +
-      '<path d="M80,40 C95,30 108,26 120,28" stroke="#0a0704" stroke-width="4" fill="none" stroke-linecap="round"/>' +
-      '<path d="M105,72 C120,66 134,64 146,68" stroke="#0a0704" stroke-width="4" fill="none" stroke-linecap="round"/>' +
-      '<g fill="#0a0704" opacity="0.95">' +
-      '<ellipse cx="122" cy="26" rx="16" ry="9" transform="rotate(25 122 26)"/>' +
-      '<ellipse cx="145" cy="64" rx="15" ry="8" transform="rotate(10 145 64)"/>' +
-      '<ellipse cx="70" cy="34" rx="14" ry="8" transform="rotate(-20 70 34)"/>' +
-      '<ellipse cx="100" cy="66" rx="13" ry="7" transform="rotate(30 100 66)"/>' +
-      '</g>';
+      '<path d="M-10,110 C0,111.9 10,113.7 20,115.6" stroke="#0a0704" stroke-width="20.8" fill="none" stroke-linecap="round"/>' +
+      '<path d="M20,115.6 C43.3,120 66.7,124.4 90,128.8" stroke="#0a0704" stroke-width="20" fill="none" stroke-linecap="round"/>' +
+      '<path d="M90,128.8 C118.3,134.1 146.7,139.5 175,144.8" stroke="#0a0704" stroke-width="18.5" fill="none" stroke-linecap="round"/>' +
+      '<path d="M175,144.8 C203.3,150.1 231.7,155.5 260,160.8" stroke="#0a0704" stroke-width="16.6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M260,160.8 C286.7,165.8 313.3,170.8 340,175.8" stroke="#0a0704" stroke-width="15" fill="none" stroke-linecap="round"/>' +
+      '<path d="M340,175.8 C360,179.6 380,183.3 400,187.1" stroke="#0a0704" stroke-width="11.2" fill="none" stroke-linecap="round"/>' +
+      '<path d="M400,187.1 C416.7,190.2 433.3,193.4 450,196.5" stroke="#0a0704" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      /* upper twigs, 40deg, spread out along the trunk (near base / mid /
+         near tip), longest near the base, shortest near the tip */
+      '<path d="M20,116 C95.8,71.7 171.7,19.6 249.8,-76.8" stroke="#0a0704" stroke-width="8" fill="none" stroke-linecap="round"/>' +
+      '<path d="M175,145 C228.1,114 281.2,77.5 335.9,10" stroke="#0a0704" stroke-width="6" fill="none" stroke-linecap="round"/>' +
+      '<path d="M340,176 C374.1,156 408.2,132.6 443.4,89.2" stroke="#0a0704" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      /* lower twigs, 50deg (30deg + 20deg further down), spread out along
+         the trunk */
+      '<path d="M90,129 C157.9,185.4 225.8,251.6 295.7,374.1" stroke="#0a0704" stroke-width="7" fill="none" stroke-linecap="round"/>' +
+      '<path d="M260,161 C306.7,199.8 353.3,245.25 401.4,329.5" stroke="#0a0704" stroke-width="5" fill="none" stroke-linecap="round"/>';
   })();
   var style = document.createElement("style");
   style.textContent = "@keyframes branchSway{0%{transform:rotate(calc(-1 * var(--amp,4deg)));}50%{transform:rotate(var(--amp,4deg));}100%{transform:rotate(calc(-1 * var(--amp,4deg)));}} .branch{animation:branchSway 3s ease-in-out infinite;}";
