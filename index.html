@@ -993,10 +993,15 @@
       if(month>=3&&month<=5) return "buds";
       return "full";
     }
+    var FULL_LEAF_COLOR = {6:"#2e8b3a",7:"#2e8b3a",8:"#2e8b3a",9:"#d9a521",10:"#b3452c"};
     (function applyBranchState(){
       var testMonth = parseInt(new URLSearchParams(location.search).get("month"), 10);
       var month = (testMonth>=1 && testMonth<=12) ? testMonth : (new Date().getMonth()+1);
-      branchEl.classList.add(branchStateForMonth(month));
+      var state = branchStateForMonth(month);
+      branchEl.classList.add(state);
+      if(state==="full"){
+        document.getElementById("leaves-full").style.color = FULL_LEAF_COLOR[month];
+      }
     })();
 
     var W=0,H=0;
