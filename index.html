@@ -65,7 +65,7 @@
   }
 
   .skyline{position:absolute;left:0;right:0;bottom:0;height:16%;pointer-events:none;opacity:.92;}
-  .branch{position:absolute;bottom:29.42%;left:-4.55%;width:clamp(280px,80vmin,960px);aspect-ratio:217/153;transform-origin:2.8% 84.3%;pointer-events:none;opacity:.97;}
+  .branch{position:absolute;bottom:29.42%;left:-4.55%;width:clamp(280px,80vmin,960px);aspect-ratio:217/153;transform-origin:2.8% 84.3%;pointer-events:none;opacity:.97;overflow:visible;}
   #leaves-full{color:#2e8b3a;}
 
   .glass-sheen{
@@ -177,7 +177,7 @@
     <div class="fog-layer" id="fogLayer"></div>
     <div class="lightning" id="lightning"></div>
     <svg class="skyline" id="skyline" viewBox="0 0 400 60" preserveAspectRatio="none"></svg>
-    <svg class="branch" id="branch" viewBox="-8 21 217 153" preserveAspectRatio="xMinYMax meet">
+    <svg class="branch" id="branch" viewBox="-8 21 217 172" preserveAspectRatio="xMinYMin slice">
       <g><path
        style="fill:#502d16;stroke-width:0.264583"
        d="m 0.25198412,158.75 c 0.88256078,-1.55614 2.50855638,-1.81842 3.77976178,-2.77183 1.0925281,0.29215 0.3168796,-0.56886 0.5039683,-0.75595 0.1015928,-0.10159 0.625294,-0.16488 0.7559524,-0.25198 0.1976726,-0.13179 0.2914766,-0.39773 0.5039683,-0.50397 0.2663952,-0.1332 0.7257311,-0.11088 1.0079365,-0.25199 0.2124917,-0.10624 0.2785867,-0.42884 0.5039683,-0.50396 0.1593686,-0.0531 0.3445994,0.0531 0.5039683,0 0.54895,0.0942 0.083995,-0.41998 0.2519838,-0.50397 0.4035751,-0.20179 0.7559524,0.30447 0.7559524,-0.25199"
