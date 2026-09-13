@@ -66,8 +66,11 @@
 
   .skyline{position:absolute;left:0;right:0;bottom:0;height:16%;pointer-events:none;opacity:.92;}
   .branch{position:absolute;bottom:29.42%;left:-4.55%;width:clamp(280px,80vmin,960px);aspect-ratio:217/153;transform-origin:2.8% 84.3%;pointer-events:none;opacity:.97;overflow:visible;}
-  #leaves-full{color:#2e8b3a;display:none;}
+  #leaves-full{color:#2e8b3a;}
   #leaves-buds{color:#71c837;}
+  #leaves-buds,#leaves-full{display:none;}
+  #branch.buds #leaves-buds{display:block;}
+  #branch.full #leaves-full{display:block;}
 
   .glass-sheen{
     position:absolute;inset:0;pointer-events:none;
@@ -984,6 +987,17 @@
     var lightningEl = document.getElementById("lightning");
     var branchEl = document.getElementById("branch");
     var skylineEl = document.getElementById("skyline");
+
+    function branchStateForMonth(month){
+      if(month===12||month===1||month===2||month===11) return "bare";
+      if(month>=3&&month<=5) return "buds";
+      return "full";
+    }
+    (function applyBranchState(){
+      var testMonth = parseInt(new URLSearchParams(location.search).get("month"), 10);
+      var month = (testMonth>=1 && testMonth<=12) ? testMonth : (new Date().getMonth()+1);
+      branchEl.classList.add(branchStateForMonth(month));
+    })();
 
     var W=0,H=0;
     var state = { condition:"clear", timeOfDay:"day", twilight:false, windSpeed:0, moonPh:0, stars:[] };
