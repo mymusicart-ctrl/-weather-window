@@ -103,6 +103,7 @@
   .now-temp{font-size:clamp(58px,20vw,104px);font-weight:200;line-height:1;letter-spacing:-1px;text-shadow:0 4px 24px rgba(0,0,0,.35);}
   .now-desc{font-size:clamp(15px,4vw,19px);color:var(--text-dim);margin-top:2px;}
   .now-meta{font-size:clamp(12px,3.2vw,14px);color:var(--text-dim);margin-top:8px;opacity:.85;}
+  .now-greeting{font-size:clamp(12px,3.2vw,14px);color:rgba(255,178,87,.55);margin-top:10px;}
   .now-alert{
     display:inline-block;margin-top:10px;padding:5px 12px;border-radius:999px;
     font-size:clamp(11px,3vw,13px);font-weight:600;
@@ -806,6 +807,7 @@
       <div class="now-temp" id="nowTemp">—°</div>
       <div class="now-desc" id="nowDesc"></div>
       <div class="now-meta" id="nowMeta"></div>
+      <div class="now-greeting" id="nowGreeting"></div>
       <div class="now-alert" id="nowAlert" hidden></div>
     </div>
 
@@ -953,6 +955,27 @@
     else cond = "clear";
     if((h.gust>=21 || h.tstm>=50) && cond!=="snow" && cond!=="fog") cond = "storm";
     return cond;
+  }
+
+  var GREETING_LINES = {
+    wind: "Заколи волосы, гроза. Пусть треплет ветку, а не тебя.",
+    rain: "Возьми зонт. А лучше не спеши — у нас в такие вечера лампа.",
+    snow: "Снег. Событие, не осадки. Шапку — и полминуты посмотри.",
+    morning: "Оденься теплее, чем хочется. Я тебя проводил.",
+    noon: "Поешь. Сегодня сначала ты, потом все — я прослежу.",
+    cloudy: "Серо? Я поработаю за солнце. Держись, родная.",
+    evening: "Стужа снаружи, ты внутри. Так и надо.",
+    day: "Небо не подведёт. Иди."
+  };
+  function greetingLine(h, condition, hour){
+    if((h.gust||0) >= 12) return GREETING_LINES.wind;
+    if(condition==="rain" || condition==="storm") return GREETING_LINES.rain;
+    if(condition==="snow") return GREETING_LINES.snow;
+    if(hour>=5 && hour<=10) return GREETING_LINES.morning;
+    if(hour>=11 && hour<=13) return GREETING_LINES.noon;
+    if(condition==="cloudy" || condition==="fog") return GREETING_LINES.cloudy;
+    if(hour>=20 || hour<5) return GREETING_LINES.evening;
+    return GREETING_LINES.day;
   }
 
   /* ---------- icons (hourly) ---------- */
@@ -1348,6 +1371,7 @@
     nowTemp: document.getElementById("nowTemp"),
     nowDesc: document.getElementById("nowDesc"),
     nowMeta: document.getElementById("nowMeta"),
+    nowGreeting: document.getElementById("nowGreeting"),
     nowAlert: document.getElementById("nowAlert"),
     statusBlock: document.getElementById("statusBlock"),
     hourlyWrap: document.getElementById("hourlyWrap"),
@@ -1440,6 +1464,7 @@
     els.nowTemp.textContent = Math.round(now.temp)+"°";
     els.nowDesc.textContent = mainDescription(now.symbol);
     els.nowMeta.textContent = "Ветер "+now.wind.toFixed(0)+" м/с"+(now.gust?" · порывы "+now.gust.toFixed(0):"");
+    els.nowGreeting.textContent = greetingLine(now, condition, nowDate.getHours());
     var alertText = topAlert(hours);
     if(alertText){ els.nowAlert.hidden=false; els.nowAlert.textContent = alertText; }
     else { els.nowAlert.hidden = true; }
@@ -1498,6 +1523,7 @@
     els.nowTemp.textContent = "--°";
     els.nowDesc.textContent = "Демо: "+cond+" / "+tod;
     els.nowMeta.textContent = "";
+    els.nowGreeting.textContent = "";
     els.nowAlert.hidden = true;
     Scene.setState({ condition:cond, timeOfDay:tod, twilight:false, windSpeed: (cond==="storm"?18:5), moonPh: moonPhase(new Date()) });
     Scene.start();
