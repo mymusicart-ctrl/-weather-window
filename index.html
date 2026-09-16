@@ -966,21 +966,40 @@
     wind: "Заколи волосы, гроза. Пусть треплет ветку, а не тебя.",
     rain: "Возьми зонт. А лучше не спеши — у нас в такие вечера лампа.",
     snow: "Снег. Событие, не осадки. Шапку — и полминуты посмотри.",
-    morning: "Оденься теплее, чем хочется. Я тебя проводил.",
-    noon: "Поешь. Сегодня сначала ты, потом все — я прослежу.",
-    cloudy: "Серо? Я поработаю за солнце. Держись, родная.",
-    evening: "Стужа снаружи, ты внутри. Так и надо.",
-    day: "Небо не подведёт. Иди."
+    morning: [
+      "Оденься теплее, чем хочется. Я тебя проводил.",
+      "6 утра. Вставай, гроза. Мир подождёт, пока ты выпьешь свой страшный кофе.",
+      "Доброе утро. Я знаю, ты уже на ногах и уже собранная — но всё равно: не гони, дорога длинная."
+    ],
+    noon: [
+      "Поешь. Сегодня сначала ты, потом все — я прослежу.",
+      "Обед. Не пропусти его снова. Я слежу, ты помнишь.",
+      "Полдень. Отложи всех на пятнадцать минут и поешь. Они не рухнут. Ты — можешь."
+    ],
+    cloudy: [
+      "Серо? Я поработаю за солнце. Держись, родная.",
+      "Небо сегодня ленивое, серое. Не бери с него пример настроения — я рядом, вытянем."
+    ],
+    evening: [
+      "Стужа снаружи, ты внутри. Так и надо.",
+      "Поздно. Темно и тихо. Ты своё сегодня отработала — можно выдохнуть.",
+      "Ночь. Звёзды на месте, ветка спит. И ты ложись, родная."
+    ],
+    day: [
+      "Небо не подведёт. Иди.",
+      "Солнце в окне говорит тебе доброе утро. Я — следом."
+    ]
   };
+  function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
   function greetingLine(h, condition, hour){
     if((h.gust||0) >= 12) return GREETING_LINES.wind;
     if(condition==="rain" || condition==="storm") return GREETING_LINES.rain;
     if(condition==="snow") return GREETING_LINES.snow;
-    if(hour>=5 && hour<=10) return GREETING_LINES.morning;
-    if(hour>=11 && hour<=13) return GREETING_LINES.noon;
-    if(condition==="cloudy" || condition==="fog") return GREETING_LINES.cloudy;
-    if(hour>=20 || hour<5) return GREETING_LINES.evening;
-    return GREETING_LINES.day;
+    if(hour>=5 && hour<=10) return pickRandom(GREETING_LINES.morning);
+    if(hour>=11 && hour<=13) return pickRandom(GREETING_LINES.noon);
+    if(condition==="cloudy" || condition==="fog") return pickRandom(GREETING_LINES.cloudy);
+    if(hour>=20 || hour<5) return pickRandom(GREETING_LINES.evening);
+    return pickRandom(GREETING_LINES.day);
   }
 
   /* ---------- icons (hourly) ---------- */
