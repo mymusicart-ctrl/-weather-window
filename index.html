@@ -1181,7 +1181,8 @@
       skyCtx.clearRect(0,0,W,H);
       skyCtx.fillStyle = g; skyCtx.fillRect(0,0,W,H);
       if(state.condition==="clear" && state.timeOfDay==="day") drawSunGlow();
-      if(state.condition==="clear" && state.timeOfDay==="night"){ drawStars(); drawMoon(); }
+      if(state.timeOfDay==="night" && (state.condition==="clear"||state.condition==="partly")) drawStars();
+      if(state.condition==="clear" && state.timeOfDay==="night") drawMoon();
       if(state.timeOfDay==="night") drawCityGlow();
       if(state.twilight) drawTwilight();
     }
