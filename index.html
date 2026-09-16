@@ -1327,10 +1327,12 @@
     }
 
     function updateWindVisuals(){
-      var amp = Math.min(3 + state.windSpeed*0.9, 16);
+      var calm = state.windSpeed <= 3;
+      var amp = calm ? 0 : Math.min((state.windSpeed-3)*0.9, 12);
       var dur = Math.max(1.1, 3.2 - state.windSpeed*0.11);
       branchEl.style.setProperty("--amp", amp+"deg");
       branchEl.style.animationDuration = dur+"s";
+      branchEl.style.animationPlayState = calm ? "paused" : "running";
     }
 
     function setState(newState){
