@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#0b0906">
 <title>Погода — вид из окна</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
 <style>
   :root{
     --frame-dark:#160f09;
@@ -103,7 +106,9 @@
   .now-temp{font-size:clamp(58px,20vw,104px);font-weight:200;line-height:1;letter-spacing:-1px;text-shadow:0 4px 24px rgba(0,0,0,.35);}
   .now-desc{font-size:clamp(15px,4vw,19px);color:var(--text-dim);margin-top:2px;}
   .now-meta{font-size:clamp(12px,3.2vw,14px);color:var(--text-dim);margin-top:8px;opacity:.85;}
-  .now-greeting{font-size:clamp(12px,3.2vw,14px);color:rgba(255,178,87,.55);margin-top:10px;}
+  .now-greeting{font-family:"Marck Script",cursive;font-size:clamp(16px,4.2vw,19px);line-height:1.5;margin-top:10px;}
+  .now-greeting.tod-day{color:#8a5a2b;}
+  .now-greeting.tod-night{color:#ffd9a0;}
   .now-alert{
     display:inline-block;margin-top:10px;padding:5px 12px;border-radius:999px;
     font-size:clamp(11px,3vw,13px);font-weight:600;
@@ -1465,6 +1470,8 @@
     els.nowDesc.textContent = mainDescription(now.symbol);
     els.nowMeta.textContent = "Ветер "+now.wind.toFixed(0)+" м/с"+(now.gust?" · порывы "+now.gust.toFixed(0):"");
     els.nowGreeting.textContent = greetingLine(now, condition, nowDate.getHours());
+    els.nowGreeting.classList.toggle("tod-night", dayInfo.timeOfDay==="night");
+    els.nowGreeting.classList.toggle("tod-day", dayInfo.timeOfDay!=="night");
     var alertText = topAlert(hours);
     if(alertText){ els.nowAlert.hidden=false; els.nowAlert.textContent = alertText; }
     else { els.nowAlert.hidden = true; }
@@ -1524,6 +1531,8 @@
     els.nowDesc.textContent = "Демо: "+cond+" / "+tod;
     els.nowMeta.textContent = "";
     els.nowGreeting.textContent = "";
+    els.nowGreeting.classList.toggle("tod-night", tod==="night");
+    els.nowGreeting.classList.toggle("tod-day", tod!=="night");
     els.nowAlert.hidden = true;
     Scene.setState({ condition:cond, timeOfDay:tod, twilight:false, windSpeed: (cond==="storm"?18:5), moonPh: moonPhase(new Date()) });
     Scene.start();
